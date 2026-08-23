@@ -325,6 +325,8 @@
 
 	/* ---------- Çizim ---------- */
 
+	var sonDurum = null;
+
 	function cizDurum(now, bolge) {
 		var k = durum(now);
 		var gecis = sonrakiGecis(now);
@@ -393,6 +395,9 @@
 			var div = document.createElement('div');
 			div.className = 'serit-parca serit-' + s.durum;
 			div.style.flex = (s.son - s.bas) + ' 0 0';
+			/* Tooltip için saat ve durum bilgisi */
+			div.setAttribute('data-saat', pad(Math.floor(s.bas / 60)) + ':' + pad(s.bas % 60));
+			div.setAttribute('data-durum', s.durum === 'peak' ? 'Peak' : 'Off-peak');
 			seritParcalar.appendChild(div);
 		});
 		var gunBas = gunBaslangicAni(now, bolge);
@@ -454,6 +459,54 @@
 		return 'Senin saatin (UTC' + isaret + Math.abs(dk) + ')';
 	}
 
+	/* ---------- İstatistik kartları ---------- */
+	var istDurum = $('istDurum');
+	var istSure = $('istSure');
+	var istSaat = $('istSaat');
+	var istTasarruf = $('istTasarruf');
+
+	function cizIstatistik(now, bolge) {
+		var k = durum(now);
+		var gecis = sonrakiGecis(now);
+		if (istDurum) {
+			istDurum.textContent = durumMetni(k);
+			istDurum.style.color = k === 'peak' ? 'var(--peak)' : 'var(--off)';
+		}
+		if (istSure) {
+			istSure.textContent = gecis ? gerisayimMetni(gecis.getTime() - now.getTime()) : '—';
+		}
+		if (istSaat) {
+			istSaat.textContent = saatMetni(now, bolge) + ' ' + gunEtiketi(now, bolge);
+		}
+		if (istTasarruf) {
+			istTasarruf.textContent = k === 'peak' ? '%0 şu an' : '%50 aktif';
+			istTasarruf.style.color = k === 'peak' ? 'var(--peak)' : 'var(--off)';
+		}
+	}
+
+	/* ---------- UTC Dönüştürücü ---------- */
+	var utcSecim = $('utcSecim');
+	var utcSonuc = $('utcSonuc');
+
+	function cizUtc(now) {
+		if (!utcSecim || !utcSonuc) return;
+		var offsetDk = parseInt(utcSecim.value, 10) || 0;
+		var hedef = new Date(now.getTime() + offsetDk * 60000);
+		var saat = pad(hedef.getUTCHours()) + ':' + pad(hedef.getUTCMinutes());
+		var isaret = offsetDk >= 0 ? '+' : '−';
+		var etiket = 'UTC' + isaret + Math.abs(offsetDk / 60);
+		var k = durum(now);
+		utcSonuc.textContent = 'Şu an: ' + saat + ' ' + etiket +
+			' · Senin saatin: ' + saatMetni(now, 'yerel') +
+			' · Durum: ' + durumMetni(k);
+	}
+
+	if (utcSecim) {
+		utcSecim.addEventListener('change', function () {
+			cizUtc(new Date());
+		});
+	}
+
 	function tamYenile() {
 		var now = new Date();
 		var bolge = bolgeAl();
@@ -463,8 +516,9 @@
 		cizPencereler(now, bolge);
 		cizSegmentler(now, bolge);
 		cizFiyatlar(now);
+		cizIstatistik(now, bolge);
+		cizUtc(now);
 		dilimBilgi.textContent = dilimMetni(now, bolge);
-		document.title = 'DeepSeek Fiyat Saati · ' + (durum(now) === 'peak' ? 'Peak' : 'Off-peak');
 	}
 
 	/* Saniyede bir: geri sayım + zaman şeridi işaretçisi (hafif) */
@@ -472,6 +526,7 @@
 		var now = new Date();
 		var bolge = bolgeAl();
 		cizDurum(now, bolge);
+		cizIstatistik(now, bolge);
 		var gunBas = gunBaslangicAni(now, bolge);
 		var pos = Math.min(1, Math.max(0, (now.getTime() - gunBas) / GUN));
 		simdiIsareti.style.left = (pos * 100) + '%';

@@ -455,10 +455,280 @@ tr.suanki .hucre-sure { color: var(--metin); font-weight: 600; }
 .uyari-kaynak { margin: 0.6rem 0 0; font-size: 0.78rem; color: var(--metin-cok-soluk); }
 .uyari a { color: var(--link); }
 
+/* ══════ Navbar ══════ */
+.navbar {
+	position: sticky;
+	top: 0;
+	z-index: 50;
+	background: color-mix(in srgb, var(--arka) 82%, transparent);
+	backdrop-filter: blur(12px);
+	-webkit-backdrop-filter: blur(12px);
+	border-bottom: 1px solid var(--kenar);
+}
+.navbar-icerik {
+	max-width: 760px;
+	margin: 0 auto;
+	padding: 0.7rem 1.2rem;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+.navbar-logo {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5rem;
+	font-weight: 700;
+	color: var(--metin);
+	text-decoration: none;
+	font-size: 1rem;
+}
+.navbar-logo svg { color: var(--vurgu); }
+.navbar-sag {
+	display: flex;
+	align-items: center;
+	gap: 0.8rem;
+}
+.navbar-link {
+	color: var(--metin-soluk);
+	text-decoration: none;
+	font-size: 0.85rem;
+	font-weight: 500;
+	transition: color var(--gecis);
+}
+.navbar-link:hover { color: var(--metin); }
+
+/* ══════ Hero ══════ */
+.hero {
+	text-align: center;
+	padding: 2.4rem 1.2rem 1.6rem;
+}
+.hero-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+	margin: 0 0 1rem;
+	padding: 0.35rem 0.8rem;
+	border: 1px solid var(--kenar);
+	border-radius: 999px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	letter-spacing: 0.05em;
+	color: var(--metin-soluk);
+	background: var(--yuzey);
+}
+.hero-badge-nokta {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background: var(--off);
+	animation: nabız 2s ease-in-out infinite;
+}
+@keyframes nabız {
+	0%, 100% { opacity: 1; }
+	50% { opacity: 0.35; }
+}
+.hero h1 {
+	margin: 0 auto;
+	max-width: 16ch;
+}
+.hero .giris-metni {
+	margin: 1rem auto 0;
+	max-width: 62ch;
+}
+.hero-butonlar {
+	display: flex;
+	justify-content: center;
+	gap: 0.75rem;
+	margin-top: 1.6rem;
+	flex-wrap: wrap;
+}
+.btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.6rem 1.1rem;
+	border-radius: 10px;
+	font-size: 0.9rem;
+	font-weight: 600;
+	text-decoration: none;
+	transition: background-color var(--gecis), color var(--gecis), border-color var(--gecis);
+}
+.btn-birincil {
+	background: var(--vurgu);
+	color: #fff;
+}
+.btn-birincil:hover { opacity: 0.9; }
+.btn-ikincil {
+	border: 1px solid var(--kenar);
+	color: var(--metin);
+	background: var(--yuzey);
+}
+.btn-ikincil:hover { border-color: var(--kenar-guclu); }
+
+/* ══════ İstatistikler ══════ */
+.istatistikler {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 0.75rem;
+	margin: 0 0 1rem;
+}
+.istatistik-kart {
+	background: var(--yuzey);
+	border: 1px solid var(--kenar);
+	border-radius: var(--radius);
+	box-shadow: var(--golge);
+	padding: 0.9rem 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+.istatistik-ikon { font-size: 1.1rem; }
+.istatistik-etiket {
+	font-size: 0.7rem;
+	text-transform: uppercase;
+	letter-spacing: 0.06em;
+	color: var(--metin-cok-soluk);
+}
+.istatistik-deger {
+	font-family: var(--mono);
+	font-variant-numeric: tabular-nums;
+	font-size: 1.05rem;
+	font-weight: 700;
+	color: var(--metin);
+}
+
+/* ══════ Bölüm başlıkları ══════ */
+.bolum-baslik {
+	margin: 0 0 0.35rem;
+	font-size: 1.25rem;
+	font-weight: 700;
+	letter-spacing: -0.01em;
+}
+
+/* ══════ UTC Dönüştürücü ══════ */
+.utc-kart { padding: 1.2rem 1.4rem 1.2rem; }
+.utc-aciklama {
+	margin: 0 0 0.9rem;
+	font-size: 0.88rem;
+	color: var(--metin-soluk);
+}
+.utc-label {
+	display: block;
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--metin-soluk);
+	margin: 0 0 0.35rem;
+}
+.utc-secim {
+	width: 100%;
+	padding: 0.55rem 0.75rem;
+	border: 1px solid var(--kenar);
+	border-radius: 10px;
+	background: var(--arka);
+	color: var(--metin);
+	font: inherit;
+	font-size: 0.9rem;
+}
+.utc-sonuc {
+	margin-top: 0.9rem;
+	padding: 0.75rem 1rem;
+	border-radius: 10px;
+	background: var(--arka);
+	border: 1px solid var(--kenar);
+	font-size: 0.9rem;
+	color: var(--metin);
+	font-family: var(--mono);
+	font-variant-numeric: tabular-nums;
+}
+
+/* ══════ FAQ ══════ */
+.faq-kart { padding: 1.2rem 1.4rem 1.2rem; }
+.faq-item {
+	border-top: 1px solid var(--kenar);
+	padding: 0.15rem 0;
+}
+.faq-item:first-of-type { border-top: 0; }
+.faq-item summary {
+	cursor: pointer;
+	padding: 0.85rem 0;
+	font-weight: 600;
+	color: var(--metin);
+	list-style: none;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 1rem;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+	content: '+';
+	font-size: 1.1rem;
+	color: var(--metin-cok-soluk);
+	transition: transform var(--gecis);
+}
+.faq-item[open] summary::after { transform: rotate(45deg); }
+.faq-item p {
+	margin: 0 0 0.85rem;
+	font-size: 0.9rem;
+	color: var(--metin-soluk);
+	line-height: 1.6;
+}
+
+/* ══════ Timeline tooltip ══════ */
+.serit-parca { position: relative; }
+.serit-parca::after {
+	content: attr(data-saat) ' · ' attr(data-durum);
+	position: absolute;
+	bottom: calc(100% + 8px);
+	left: 50%;
+	transform: translateX(-50%) translateY(4px);
+	background: var(--metin);
+	color: var(--arka);
+	font-family: var(--mono);
+	font-size: 0.68rem;
+	font-weight: 600;
+	padding: 0.25rem 0.5rem;
+	border-radius: 6px;
+	white-space: nowrap;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity var(--gecis), transform var(--gecis);
+	z-index: 5;
+}
+.serit-parca:hover::after {
+	opacity: 1;
+	transform: translateX(-50%) translateY(0);
+}
+
+/* ══════ Alt bilgi (footer) ══════ */
+.alt {
+	margin-top: 2.4rem;
+	padding-top: 1.4rem;
+	border-top: 1px solid var(--kenar);
+	text-align: center;
+}
+.alt-marka {
+	margin: 0;
+	font-weight: 700;
+	color: var(--metin);
+	font-size: 0.95rem;
+}
+.alt-not {
+	margin: 0.4rem 0 0;
+	font-size: 0.8rem;
+	color: var(--metin-cok-soluk);
+}
+.alt-not a { color: var(--link); text-decoration: none; }
+.alt-not a:hover { text-decoration: underline; }
+
 /* ══════ Küçük ekranlar ══════ */
 @media (max-width: 560px) {
 	.fiyat-satiri { flex-direction: column; gap: 0.2rem; }
 	.fiyat-cift { width: 100%; justify-content: space-between; }
 	.tema-menu { left: 0; right: auto; }
+	.istatistikler { grid-template-columns: repeat(2, 1fr); }
+	.navbar-link { font-size: 0.8rem; }
+	.hero { padding: 1.8rem 1.2rem 1.2rem; }
 }
 

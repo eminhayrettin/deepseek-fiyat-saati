@@ -3,9 +3,90 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>DeepSeek Fiyat Saati</title>
+	<title>DeepSeek API Off-Peak Tracker | API Clock</title>
 	<meta name="description" content="DeepSeek API fiyatları şu an peak mi off-peak mi? Kendi saat diliminde canlı geri sayım, fiyat pencereleri ve model fiyatları.">
+	<meta name="robots" content="index, follow">
 	<meta name="color-scheme" content="light dark">
+	<link rel="canonical" href="https://api-clock.emin66.site/">
+
+	<!-- Open Graph (sosyal medya paylaşım kartı) -->
+	<meta property="og:type" content="website">
+	<meta property="og:site_name" content="API Clock">
+	<meta property="og:locale" content="tr_TR">
+	<meta property="og:title" content="DeepSeek API Off-Peak Tracker | API Clock">
+	<meta property="og:description" content="DeepSeek API fiyatları şu an peak mi off-peak mi? Kendi saat diliminde canlı geri sayım, fiyat pencereleri ve model fiyatları.">
+	<meta property="og:url" content="https://api-clock.emin66.site/">
+	<meta property="og:image" content="https://api-clock.emin66.site/og-image.png">
+	<meta property="og:image:width" content="1200">
+	<meta property="og:image:height" content="630">
+
+	<!-- Twitter Card -->
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="DeepSeek API Off-Peak Tracker | API Clock">
+	<meta name="twitter:description" content="DeepSeek API fiyatları şu an peak mi off-peak mi? Kendi saat diliminde canlı geri sayım ve model fiyatları.">
+	<meta name="twitter:image" content="https://api-clock.emin66.site/og-image.png">
+
+	<!-- Favicon -->
+	<link rel="icon" href="favicon.svg" type="image/svg+xml">
+	<link rel="manifest" href="manifest.webmanifest">
+
+	<!-- JSON-LD: Uygulama şeması -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "WebApplication",
+		"name": "API Clock",
+		"url": "https://api-clock.emin66.site/",
+		"description": "DeepSeek API fiyatlarının peak/off-peak durumunu kendi saat diliminde canlı gösteren ücretsiz araç.",
+		"inLanguage": "tr",
+		"applicationCategory": "UtilityApplication",
+		"operatingSystem": "Any"
+	}
+	</script>
+
+	<!-- JSON-LD: SSS (Google'da zengin sonuç) -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "FAQPage",
+		"mainEntity": [
+			{
+				"@type": "Question",
+				"name": "DeepSeek API'nin peak saatleri nedir?",
+				"acceptedAnswer": { "@type": "Answer", "text": "Hafta içi 01:00-04:00 ve 06:00-10:00 (UTC) arası peak, geri kalan saatler off-peaktir." }
+			},
+			{
+				"@type": "Question",
+				"name": "Hafta sonu DeepSeek peak olur mu?",
+				"acceptedAnswer": { "@type": "Answer", "text": "Hayır. 23 Ağustos 2026'dan itibaren hafta sonları (Pekin saatiyle Cumartesi-Pazar) tüm gün off-peak fiyat uygulanır." }
+			},
+			{
+				"@type": "Question",
+				"name": "DeepSeek off-peak saatlerde ne kadar indirimli?",
+				"acceptedAnswer": { "@type": "Answer", "text": "Off-peak saatlerde fiyatlar yarıya düşer. Örneğin DeepSeek V4 Flash girdi fiyatı $0.44 yerine $0.22 olur." }
+			}
+		]
+	}
+	</script>
+
+	<!-- JSON-LD: Breadcrumb -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "BreadcrumbList",
+		"itemListElement": [
+			{
+				"@type": "ListItem",
+				"position": 1,
+				"name": "Ana Sayfa",
+				"item": "https://api-clock.emin66.site/"
+			}
+		]
+	}
+	</script>
+
+	<!-- Google Analytics kodu GitHub sürümünde yer almaz. -->
+
 	<link rel="stylesheet" href="style.css">
 
 	<script>
@@ -26,11 +107,18 @@
 	</script>
 </head>
 <body>
-	<div class="sayfa">
-
-		<header class="baslik">
-			<div class="baslik-ust">
-				<h1>DeepSeek Fiyat Saati</h1>
+	<nav class="navbar" aria-label="Ana menü">
+		<div class="navbar-icerik">
+			<a class="navbar-logo" href="/" aria-label="API Clock ana sayfa">
+				<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+					<circle cx="12" cy="12" r="10"></circle>
+					<polyline points="12 6 12 12 16 14"></polyline>
+				</svg>
+				<span>API Clock</span>
+			</a>
+			<div class="navbar-sag">
+				<a class="navbar-link" href="https://github.com/eminhayrettin/deepseek-fiyat-saati" target="_blank" rel="noopener">GitHub</a>
+				<a class="navbar-link" href="https://api-docs.deepseek.com/quick_start/pricing" target="_blank" rel="noopener">API Dokümantasyonu</a>
 				<div class="tema-alan">
 					<button type="button" class="tema-acilir-btn" id="temaButon" aria-haspopup="true" aria-expanded="false">
 						<span class="tema-btn-ikon" aria-hidden="true">🎨</span>
@@ -45,10 +133,53 @@
 					</div>
 				</div>
 			</div>
+		</div>
+	</nav>
+	<div class="sayfa">
+
+		<noscript>
+			<div style="border:1px solid #ccc;border-radius:8px;padding:12px 16px;margin:0 0 16px;background:#fafafa;color:#333;font-size:14px;line-height:1.5">
+				<strong>DeepSeek Fiyat Saati:</strong> DeepSeek API'nin peak/off-peak fiyat durumunu gösteren ücretsiz bir araçtır.
+				Hafta içi peak saatleri 01:00–04:00 ve 06:00–10:00 (UTC); hafta sonları tüm gün indirimli (off-peak) uygulanır.
+				Güncel fiyatlar için resmi <a href="https://api-docs.deepseek.com/quick_start/pricing">DeepSeek fiyatlandırma sayfası</a>'nı ziyaret edin.
+			</div>
+		</noscript>
+
+		<header class="baslik hero">
+			<p class="hero-badge"><span class="hero-badge-nokta" aria-hidden="true"></span>CANLI · Yerel saatinle senkron</p>
+			<h1>DeepSeek API Off-Peak Tracker</h1>
 			<p class="giris-metni">DeepSeek API'si, yoğun olmayan (off-peak) saatlerde yarı fiyatına çalışır. Pencereler UTC sabit olduğu için dünyanın her yerinde takip etmek zordur — bu sayfa şu an nerede olduğunu, bir sonraki geçişin kendi saat diliminde ne zaman olacağını ve her iki modelin fiyatını gösterir. Acil olmayan işleri indirimli dilime bırakın, fatura yarıya düşsün.</p>
+			<div class="hero-butonlar">
+				<a class="btn btn-birincil" href="#durumKart">Canlı Takvimi Gör</a>
+				<a class="btn btn-ikincil" href="https://api-docs.deepseek.com/quick_start/pricing" target="_blank" rel="noopener">API Dokümantasyonu</a>
+			</div>
 		</header>
 
 		<main>
+			<!-- İstatistik kartları -->
+			<section class="istatistikler" aria-label="Hızlı istatistikler">
+				<div class="istatistik-kart">
+					<span class="istatistik-ikon" aria-hidden="true">🟢</span>
+					<span class="istatistik-etiket">Güncel Durum</span>
+					<strong class="istatistik-deger" id="istDurum">…</strong>
+				</div>
+				<div class="istatistik-kart">
+					<span class="istatistik-ikon" aria-hidden="true">⏱️</span>
+					<span class="istatistik-etiket">Kalan Süre</span>
+					<strong class="istatistik-deger" id="istSure">…</strong>
+				</div>
+				<div class="istatistik-kart">
+					<span class="istatistik-ikon" aria-hidden="true">🕐</span>
+					<span class="istatistik-etiket">Yerel Saat</span>
+					<strong class="istatistik-deger" id="istSaat">…</strong>
+				</div>
+				<div class="istatistik-kart">
+					<span class="istatistik-ikon" aria-hidden="true">💰</span>
+					<span class="istatistik-etiket">Bugünkü Tasarruf</span>
+					<strong class="istatistik-deger" id="istTasarruf">%50</strong>
+				</div>
+			</section>
+
 			<!-- Durum kartı -->
 			<section class="kart durum-kart" id="durumKart" data-durum="off">
 				<p class="rozet"><span class="nokta" aria-hidden="true"></span><span id="durumMetin">Durum hesaplanıyor…</span></p>
@@ -85,6 +216,20 @@
 				<span class="dilim-bilgi" id="dilimBilgi">…</span>
 			</div>
 
+			<!-- UTC Dönüştürücü -->
+			<section class="kart utc-kart" aria-labelledby="utc-baslik">
+				<h2 id="utc-baslik" class="bolum-baslik">Saat Dilimi Dönüştürücü</h2>
+				<p class="utc-aciklama">Kendi saat dilimini seç, DeepSeek fiyat saatlerinin sana göre karşılığını anlık gör.</p>
+				<label class="utc-label" for="utcSecim">Saat dilimin</label>
+				<select id="utcSecim" class="utc-secim">
+					<option value="-480">UTC−8 (Pasifik)</option>
+					<option value="0" selected>UTC</option>
+					<option value="180">UTC+3 (Türkiye)</option>
+					<option value="480">UTC+8 (Pekin)</option>
+				</select>
+				<div class="utc-sonuc" id="utcSonuc" role="status">…</div>
+			</section>
+
 			<!-- Fiyat kartı -->
 			<section class="kart fiyat-kart" id="fiyatKart" data-durum="off">
 				<div class="fiyat-kisim fiyat-simdi">
@@ -98,15 +243,41 @@
 				<p class="kart-not">Önbellek isabeti (hit) girdisi, önbellek kaçırmaya (miss) göre çok daha ucuzdur.</p>
 			</section>
 
-			<!-- Notlar ve yardım -->
+			<!-- SSS -->
+			<section class="kart faq-kart" aria-labelledby="faq-baslik">
+				<h2 id="faq-baslik" class="bolum-baslik">Sıkça Sorulan Sorular</h2>
+				<details class="faq-item">
+					<summary>Off-Peak nedir?</summary>
+					<p>DeepSeek API'nin yoğun olmayan saatlerde uyguladığı indirimli fiyat dönemidir. Bu saatlerde fiyatlar yarı yarıya düşer.</p>
+				</details>
+				<details class="faq-item">
+					<summary>Neden daha ucuz?</summary>
+					<p>DeepSeek, sunucu yoğunluğunun düşük olduğu saatlerde kapasiteyi verimli kullanmak için indirim uygular. Böylece acil olmayan işlerini ucuza gönderebilirsin.</p>
+				</details>
+				<details class="faq-item">
+					<summary>Hangi saat dilimi kullanılıyor?</summary>
+					<p>Peak/off-peak pencereleri UTC cinsinden sabittir. Bu sayfa, pencereleri senin yerel saatine otomatik olarak çevirir.</p>
+				</details>
+				<details class="faq-item">
+					<summary>Veriler ne sıklıkla güncelleniyor?</summary>
+					<p>Durum ve geri sayım her saniye, fiyat pencereleri ise her 30 saniyede bir güncellenir. Fiyatlar resmi DeepSeek fiyatlandırma sayfasından alınır.</p>
+				</details>
+			</section>
+
+			<!-- Notlar -->
 			<section class="notlar">
 				<div class="uyari" role="note">
 					<p class="uyari-baslik">📢 Fiyat kuralı hakkında</p>
 					<p class="uyari-metin" id="kuralNotu"></p>
-					<p class="uyari-kaynak">Kaynak: <a href="https://api-docs.deepseek.com/quick_start/pricing" target="_blank" rel="noopener">DeepSeek resmi fiyatlandırma sayfası</a> · Son güncelleme: <span id="sonGuncelleme">…</span></p>
+					<p class="uyari-kaynak">Kaynak: <a href="https://api-docs.deepseek.com/quick_start/pricing" id="resmiFiyatLinki" target="_blank" rel="noopener">DeepSeek resmi fiyatlandırma sayfası</a> · Son güncelleme: <span id="sonGuncelleme">…</span></p>
 				</div>
 			</section>
 		</main>
+
+		<footer class="alt">
+			<p class="alt-marka">API Clock</p>
+			<p class="alt-not">Made by Emin66 · <a href="https://github.com/eminhayrettin" target="_blank" rel="noopener">GitHub</a> · <a href="https://github.com/eminhayrettin/deepseek-fiyat-saati" target="_blank" rel="noopener">Kaynak Kod</a></p>
+		</footer>
 	</div>
 
 	<script src="fiyatlar.js"></script>

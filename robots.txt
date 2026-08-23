@@ -1,0 +1,6 @@
+# DeepSeek Fiyat Saati — robots.txt
+# Google ve diğer arama motorları bu siteyi tarayabilir (indexlemeye açık).
+User-agent: *
+Allow: /
+
+Sitemap: https://api-clock.emin66.site/sitemap.xml
