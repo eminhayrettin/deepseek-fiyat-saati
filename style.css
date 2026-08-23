@@ -148,6 +148,7 @@ h1 {
 	right: 0;
 	top: calc(100% + 6px);
 	min-width: 150px;
+	max-width: calc(100vw - 24px);
 	background: var(--yuzey);
 	border: 1px solid var(--kenar);
 	border-radius: 10px;
@@ -704,7 +705,7 @@ tr.suanki .hucre-sure { color: var(--metin); font-weight: 600; }
 @media (max-width: 560px) {
 	.fiyat-satiri { flex-direction: column; gap: 0.2rem; }
 	.fiyat-cift { width: 100%; justify-content: space-between; }
-	.tema-menu { left: 0; right: auto; }
+	.tema-menu { left: auto; right: 0; min-width: 140px; max-width: calc(100vw - 24px); }
 	.istatistikler { grid-template-columns: repeat(2, 1fr); }
 	.navbar-link { font-size: 0.78rem; }
 	.navbar-sag { gap: 0.5rem; }
