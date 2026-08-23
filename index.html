@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="tr">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>DeepSeek Fiyat Saati</title>
+	<meta name="description" content="DeepSeek API fiyatları şu an peak mi off-peak mi? Kendi saat diliminde canlı geri sayım, fiyat pencereleri ve model fiyatları.">
+	<meta name="color-scheme" content="light dark">
+	<link rel="stylesheet" href="style.css">
+
+	<script>
+		/* Tema tercihini sayfa boyanmadan önce uygula (yanıp sönmeyi önler). */
+		(function () {
+			var KEY = "ds-tema";
+			var root = document.documentElement;
+			var tercih = null;
+			try { tercih = localStorage.getItem(KEY); } catch (e) {}
+			if (tercih !== "acik" && tercih !== "kagit" && tercih !== "karanlik" && tercih !== "sistem") {
+				tercih = "sistem"; /* varsayılan: işletim sistemini takip et */
+			}
+			root.setAttribute("data-tercih", tercih);
+			var karanlik = false;
+			try { karanlik = window.matchMedia("(prefers-color-scheme: dark)").matches; } catch (e) {}
+			root.setAttribute("data-theme", tercih === "sistem" ? (karanlik ? "karanlik" : "acik") : tercih);
+		})();
+	</script>
+</head>
+<body>
+	<div class="sayfa">
+
+		<header class="baslik">
+			<div class="baslik-ust">
+				<h1>DeepSeek Fiyat Saati</h1>
+				<div class="tema-alan">
+					<button type="button" class="tema-acilir-btn" id="temaButon" aria-haspopup="true" aria-expanded="false">
+						<span class="tema-btn-ikon" aria-hidden="true">🎨</span>
+						<span class="tema-btn-yazi" id="temaButonYazi">Tema</span>
+						<span class="tema-ok" aria-hidden="true">▾</span>
+					</button>
+					<div class="tema-menu" id="temaMenu" hidden>
+						<button type="button" class="tema-opt" data-tema="acik"><span aria-hidden="true">☀️</span>Aydınlık</button>
+						<button type="button" class="tema-opt" data-tema="kagit"><span aria-hidden="true">📄</span>Kâğıt</button>
+						<button type="button" class="tema-opt" data-tema="karanlik"><span aria-hidden="true">🌙</span>Karanlık</button>
+						<button type="button" class="tema-opt" data-tema="sistem"><span aria-hidden="true">🖥️</span>Sistem</button>
+					</div>
+				</div>
+			</div>
+			<p class="giris-metni">DeepSeek API'si, yoğun olmayan (off-peak) saatlerde yarı fiyatına çalışır. Pencereler UTC sabit olduğu için dünyanın her yerinde takip etmek zordur — bu sayfa şu an nerede olduğunu, bir sonraki geçişin kendi saat diliminde ne zaman olacağını ve her iki modelin fiyatını gösterir. Acil olmayan işleri indirimli dilime bırakın, fatura yarıya düşsün.</p>
+		</header>
+
+		<main>
+			<!-- Durum kartı -->
+			<section class="kart durum-kart" id="durumKart" data-durum="off">
+				<p class="rozet"><span class="nokta" aria-hidden="true"></span><span id="durumMetin">Durum hesaplanıyor…</span></p>
+				<p class="sayac"><span id="gerisayim">–:–:–</span><span class="sayac-birim">kaldı</span></p>
+				<p class="degisim"><span class="ok" aria-hidden="true">→</span><span id="sonrakiMetin">…</span></p>
+			</section>
+
+			<!-- Pencere tablosu -->
+			<section class="kart pencereler-kart" id="pencerelerKart" hidden>
+				<p class="pencereler-baslik">Fiyat pencereleri <span class="pencere-bolge" id="pencereBolgesi">senin saatine göre</span></p>
+				<table class="pencere-tablo">
+					<thead>
+						<tr><th class="sutun-durum">Durum</th><th>Saat aralığı</th><th class="sutun-sure">Süre</th></tr>
+					</thead>
+					<tbody id="pencereGovde"></tbody>
+				</table>
+			</section>
+
+			<!-- 24 saatlik zaman şeridi -->
+			<section class="kart serit-kart" aria-label="24 saatlik fiyat görünümü">
+				<div class="zaman-seridi">
+					<div class="serit-parcalar" id="seritParcalar" aria-hidden="true"></div>
+					<div class="simdi-isareti" id="simdiIsareti" aria-hidden="true"></div>
+				</div>
+				<div class="eksen" aria-hidden="true"><span>00</span><span>06</span><span>12</span><span>18</span><span>24</span></div>
+			</section>
+
+			<!-- Saat dilimi seçimi -->
+			<div class="arac-cubugu">
+				<span class="bolge-gecis" role="group" aria-label="Saat dilimi">
+					<button type="button" class="bolge-btn" data-bolge="yerel" aria-pressed="true">Yerel</button>
+					<button type="button" class="bolge-btn" data-bolge="utc" aria-pressed="false">UTC</button>
+				</span>
+				<span class="dilim-bilgi" id="dilimBilgi">…</span>
+			</div>
+
+			<!-- Fiyat kartı -->
+			<section class="kart fiyat-kart" id="fiyatKart" data-durum="off">
+				<div class="fiyat-kisim fiyat-simdi">
+					<p class="kart-baslik"><span class="nokta" aria-hidden="true"></span><span id="fiyatSimdiEtiket">Off-peak fiyatları</span></p>
+					<div class="fiyat-satirlar" id="fiyatSimdiIcerik"></div>
+				</div>
+				<div class="fiyat-kisim fiyat-sonraki">
+					<p class="kart-baslik"><span class="nokta" aria-hidden="true"></span><span id="fiyatSonrakiEtiket">Sonraki dilim fiyatları</span></p>
+					<div class="fiyat-satirlar" id="fiyatSonrakiIcerik"></div>
+				</div>
+				<p class="kart-not">Önbellek isabeti (hit) girdisi, önbellek kaçırmaya (miss) göre çok daha ucuzdur.</p>
+			</section>
+
+			<!-- Notlar ve yardım -->
+			<section class="notlar">
+				<div class="uyari" role="note">
+					<p class="uyari-baslik">📢 Fiyat kuralı hakkında</p>
+					<p class="uyari-metin" id="kuralNotu"></p>
+					<p class="uyari-kaynak">Kaynak: <a href="https://api-docs.deepseek.com/quick_start/pricing" target="_blank" rel="noopener">DeepSeek resmi fiyatlandırma sayfası</a> · Son güncelleme: <span id="sonGuncelleme">…</span></p>
+				</div>
+			</section>
+		</main>
+	</div>
+
+	<script src="fiyatlar.js"></script>
+	<script src="script.js"></script>
+</body>
+</html>
