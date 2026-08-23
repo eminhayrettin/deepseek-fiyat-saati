@@ -205,8 +205,7 @@
 		root.setAttribute('data-tercih', t);
 		root.setAttribute('data-theme', cozum);
 		if (t === 'sistem') {
-			/* Hangi rengin devrede olduğunu butonda göster */
-			temaButonYazi.textContent = 'Sistem · ' + (cozum === 'karanlik' ? 'karanlık' : 'aydınlık');
+			temaButonYazi.textContent = 'Sistem';
 		} else {
 			temaButonYazi.textContent = temaAdlari[t] || 'Tema';
 		}
@@ -465,6 +464,18 @@
 	var istSaat = $('istSaat');
 	var istTasarruf = $('istTasarruf');
 
+	/* İki tarihin aynı gün olup olmadığını seçilen dilime göre karşılaştır */
+	function ayniGunMu(a, b, bolge) {
+		if (bolge === 'utc') {
+			return a.getUTCFullYear() === b.getUTCFullYear() &&
+				a.getUTCMonth() === b.getUTCMonth() &&
+				a.getUTCDate() === b.getUTCDate();
+		}
+		return a.getFullYear() === b.getFullYear() &&
+			a.getMonth() === b.getMonth() &&
+			a.getDate() === b.getDate();
+	}
+
 	function cizIstatistik(now, bolge) {
 		var k = durum(now);
 		var gecis = sonrakiGecis(now);
@@ -473,7 +484,16 @@
 			istDurum.style.color = k === 'peak' ? 'var(--peak)' : 'var(--off)';
 		}
 		if (istSure) {
-			istSure.textContent = gecis ? gerisayimMetni(gecis.getTime() - now.getTime()) : '—';
+			if (!gecis) {
+				istSure.textContent = '—';
+			} else {
+				/* Geçiş bugün içindeyse saat; yeni güne/hafta sonuna denk gelirse
+				   gün silik parantezde öncelikli görünür. */
+				var saat = saatMetni(gecis, bolge);
+				istSure.innerHTML = ayniGunMu(gecis, now, bolge)
+					? saat
+					: saat + ' <span class="ist-sil">(' + gunEtiketi(gecis, bolge) + ')</span>';
+			}
 		}
 		if (istSaat) {
 			istSaat.textContent = saatMetni(now, bolge) + ' ' + gunEtiketi(now, bolge);
@@ -482,29 +502,6 @@
 			istTasarruf.textContent = k === 'peak' ? '%0 şu an' : '%50 aktif';
 			istTasarruf.style.color = k === 'peak' ? 'var(--peak)' : 'var(--off)';
 		}
-	}
-
-	/* ---------- UTC Dönüştürücü ---------- */
-	var utcSecim = $('utcSecim');
-	var utcSonuc = $('utcSonuc');
-
-	function cizUtc(now) {
-		if (!utcSecim || !utcSonuc) return;
-		var offsetDk = parseInt(utcSecim.value, 10) || 0;
-		var hedef = new Date(now.getTime() + offsetDk * 60000);
-		var saat = pad(hedef.getUTCHours()) + ':' + pad(hedef.getUTCMinutes());
-		var isaret = offsetDk >= 0 ? '+' : '−';
-		var etiket = 'UTC' + isaret + Math.abs(offsetDk / 60);
-		var k = durum(now);
-		utcSonuc.textContent = 'Şu an: ' + saat + ' ' + etiket +
-			' · Senin saatin: ' + saatMetni(now, 'yerel') +
-			' · Durum: ' + durumMetni(k);
-	}
-
-	if (utcSecim) {
-		utcSecim.addEventListener('change', function () {
-			cizUtc(new Date());
-		});
 	}
 
 	function tamYenile() {
@@ -517,7 +514,6 @@
 		cizSegmentler(now, bolge);
 		cizFiyatlar(now);
 		cizIstatistik(now, bolge);
-		cizUtc(now);
 		dilimBilgi.textContent = dilimMetni(now, bolge);
 	}
 
@@ -527,6 +523,7 @@
 		var bolge = bolgeAl();
 		cizDurum(now, bolge);
 		cizIstatistik(now, bolge);
+		cizFiyatlar(now);
 		var gunBas = gunBaslangicAni(now, bolge);
 		var pos = Math.min(1, Math.max(0, (now.getTime() - gunBas) / GUN));
 		simdiIsareti.style.left = (pos * 100) + '%';

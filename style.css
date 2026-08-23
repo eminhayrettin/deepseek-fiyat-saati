@@ -473,6 +473,7 @@ tr.suanki .hucre-sure { color: var(--metin); font-weight: 600; }
 	align-items: center;
 	justify-content: space-between;
 	gap: 1rem;
+	flex-wrap: wrap;
 }
 .navbar-logo {
 	display: inline-flex;
@@ -487,7 +488,14 @@ tr.suanki .hucre-sure { color: var(--metin); font-weight: 600; }
 .navbar-sag {
 	display: flex;
 	align-items: center;
+	justify-content: flex-end;
 	gap: 0.8rem;
+	flex-wrap: wrap;
+}
+.navbar .tema-acilir-btn {
+	padding: 0.4rem 0.6rem;
+	font-size: 0.78rem;
+	box-shadow: none;
 }
 .navbar-link {
 	color: var(--metin-soluk);
@@ -597,6 +605,12 @@ tr.suanki .hucre-sure { color: var(--metin); font-weight: 600; }
 	font-weight: 700;
 	color: var(--metin);
 }
+.ist-sil {
+	opacity: 0.55;
+	font-size: 0.78em;
+	font-weight: 500;
+	font-family: var(--font);
+}
 
 /* ══════ Bölüm başlıkları ══════ */
 .bolum-baslik {
@@ -604,42 +618,6 @@ tr.suanki .hucre-sure { color: var(--metin); font-weight: 600; }
 	font-size: 1.25rem;
 	font-weight: 700;
 	letter-spacing: -0.01em;
-}
-
-/* ══════ UTC Dönüştürücü ══════ */
-.utc-kart { padding: 1.2rem 1.4rem 1.2rem; }
-.utc-aciklama {
-	margin: 0 0 0.9rem;
-	font-size: 0.88rem;
-	color: var(--metin-soluk);
-}
-.utc-label {
-	display: block;
-	font-size: 0.75rem;
-	font-weight: 600;
-	color: var(--metin-soluk);
-	margin: 0 0 0.35rem;
-}
-.utc-secim {
-	width: 100%;
-	padding: 0.55rem 0.75rem;
-	border: 1px solid var(--kenar);
-	border-radius: 10px;
-	background: var(--arka);
-	color: var(--metin);
-	font: inherit;
-	font-size: 0.9rem;
-}
-.utc-sonuc {
-	margin-top: 0.9rem;
-	padding: 0.75rem 1rem;
-	border-radius: 10px;
-	background: var(--arka);
-	border: 1px solid var(--kenar);
-	font-size: 0.9rem;
-	color: var(--metin);
-	font-family: var(--mono);
-	font-variant-numeric: tabular-nums;
 }
 
 /* ══════ FAQ ══════ */
@@ -728,7 +706,9 @@ tr.suanki .hucre-sure { color: var(--metin); font-weight: 600; }
 	.fiyat-cift { width: 100%; justify-content: space-between; }
 	.tema-menu { left: 0; right: auto; }
 	.istatistikler { grid-template-columns: repeat(2, 1fr); }
-	.navbar-link { font-size: 0.8rem; }
+	.navbar-link { font-size: 0.78rem; }
+	.navbar-sag { gap: 0.5rem; }
+	.tema-btn-yazi { display: none; }
 	.hero { padding: 1.8rem 1.2rem 1.2rem; }
 }
 
